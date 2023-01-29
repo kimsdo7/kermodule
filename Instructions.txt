@@ -1,0 +1,98 @@
+﻿First, since we wrote the kernel module code with c, we need compiler for c.
+
+
+sudo apt install gcc
+
+
+The gcc package is a compiler for the C programming language, which is necessary for building kernel modules. Without it, the make command will not be able to properly compile the kernel module and produce the necessary files for it to be inserted into the kernel.
+
+
+Secondly, we need to set up some dependencies to use some commands in the makefile, and also we can avoid typing long commands every time by the makefile. (In makefile,  $(uname -r) command is used to get the current running kernel version. M=$PWD tells make to use the current directory as the location of the module's source files.)
+
+
+Thus, we need to download the make package and its dependencies with
+
+
+sudo apt install make
+
+
+Then, run Makefile using make. However, there are two types of make commands defined here.
+
+
+To build your kernel module (you can only type make, The ‘all’ target tells make to build the kernel module by invoking the make command in the directory where the Linux kernel source code is located.)
+
+
+make (all)
+
+
+To remove all object files and other files created by the previous compilation, you can use the following command
+
+
+make clean
+
+
+The "insmod" command takes a single argument, which is the name of the kernel module file (with the .ko extension) that you want to insert into the kernel.
+
+"lsmod" does not take any arguments and run the command, it will display a list of all the currently loaded kernel modules, along with information such as the size of the module, the number of references to the module, and the module's dependencies. 
+
+
+Thus, the "lsmod | less" command is a pipeline command, redirects the output of the lsmod command to the order by usage
+
+
+lsmod | less
+
+
+To check there is no hello module currently (your module name is hello)
+
+
+Then, you can type
+
+
+(sudo) insmod hello.ko → sudo if permission denied
+
+
+To insert the kernel module.
+
+
+Then, you can type the 
+
+
+lsmod | less
+
+
+To check it is inserted. Since we didn’t really use this module, it will be on the top!
+
+
+Also, you can use
+
+
+(sudo) dmesg
+
+
+To check the kernel log buffer for any messages that were printed by the module using the printk function. It will be at the bottom usually!
+
+
+If there is hello world, it is good to go!
+
+
+Also, you can see more module information like filename with
+
+
+modinfo hello.ko
+ 
+To remove this module, you can type
+
+
+(sudo) rmmod hello
+
+
+Then, you can check with commands like 
+
+
+lsmod | less
+
+
+(sudo) dmesg
+
+
+To see the current running module and printed line for goodbye!
